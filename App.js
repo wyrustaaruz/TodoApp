@@ -1,5 +1,6 @@
 import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Provider } from "react-redux";
 import LoginScreen from "./src/scenes/auth/Login";
@@ -15,7 +16,7 @@ const HomeStack = () => {
         name="Home"
         component={DashboardScreen}
         options={{
-          title: "Giriş Yap",
+          title: "",
           headerShown: false,
         }}
       />
@@ -40,10 +41,12 @@ const AuthStack = () => {
 function App() {
   return (
     <Provider store={store}>
-      <NavigationContainer>
-        {/* <HomeStack /> */}
-        <AuthStack />
-      </NavigationContainer>
+      <SafeAreaProvider style={{ backgroundColor: "#464646" }}>
+        <NavigationContainer>
+          <HomeStack />
+          {/* <AuthStack /> */}
+        </NavigationContainer>
+      </SafeAreaProvider>
     </Provider>
   );
 }
