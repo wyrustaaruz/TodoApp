@@ -1,8 +1,10 @@
 import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { Provider } from "react-redux";
 import LoginScreen from "./src/scenes/auth/Login";
 import DashboardScreen from "./src/scenes/home/Dashboard";
+import { store } from "./src/redux/store";
 
 const Stack = createNativeStackNavigator();
 
@@ -37,10 +39,12 @@ const AuthStack = () => {
 
 function App() {
   return (
-    <NavigationContainer>
-      {/* <HomeStack /> */}
-      <AuthStack />
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        {/* <HomeStack /> */}
+        <AuthStack />
+      </NavigationContainer>
+    </Provider>
   );
 }
 
