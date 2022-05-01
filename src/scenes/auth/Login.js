@@ -6,13 +6,11 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
-import FirebaseStorage from "../../data/FirebaseStorage";
-import { useFonts, Poppins_600SemiBold } from "@expo-google-fonts/poppins";
+import { useDispatch } from "react-redux";
+import Actions from "../../redux/actions";
 
 function LoginScreen({ navigation }) {
-  let [fontsLoaded] = useFonts({
-    Poppins_600SemiBold,
-  });
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [username, setUsername] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -24,13 +22,7 @@ function LoginScreen({ navigation }) {
 
   const handleLogin = () => {
     if (username && firstName) {
-      setLoading(true);
-      FirebaseStorage.onAuthStateChanged();
-      if (FirebaseStorage.uid) {
-        setTimeout(() => {
-          setLoading(false);
-        }, 1000);
-      }
+      dispatch(Actions.authActions.MakeLogin(username, firstName, lastName));
     } else {
       const tempValueChecker = {
         username: false,
@@ -58,9 +50,6 @@ function LoginScreen({ navigation }) {
     return <Text style={styles.header}>Loading...</Text>;
   };
 
-  if (!fontsLoaded) {
-    return <Text>Loading</Text>;
-  }
   return (
     <View style={styles.container}>
       {loading ? (
@@ -121,7 +110,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 51,
   },
   header: {
-    fontFamily: "Poppins_600SemiBold",
+    fontFamily: "poppins-semibold",
     fontSize: 18,
   },
   inputsContainer: {
@@ -149,7 +138,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#0062FF",
   },
   buttonText: {
-    fontFamily: "Poppins_600SemiBold",
+    fontFamily: "poppins-semibold",
     fontWeight: "600",
     fontSize: 14,
     height: 45,

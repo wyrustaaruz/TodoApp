@@ -1,58 +1,20 @@
-import * as React from "react";
-import { NavigationContainer } from "@react-navigation/native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import useCachedResources from "./src/hooks/useCachedResources";
+import Navigation from "./src/navigation";
 import { Provider } from "react-redux";
-import LoginScreen from "./src/scenes/auth/Login";
-import DashboardScreen from "./src/scenes/home/Dashboard";
 import { store } from "./src/redux/store";
-import FirebaseStorage from "./src/data/FirebaseStorage";
 
-const Stack = createNativeStackNavigator();
-
-const HomeStack = () => {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="Home"
-        component={DashboardScreen}
-        options={{
-          title: "",
-          headerShown: false,
-        }}
-      />
-    </Stack.Navigator>
-  );
-};
-const AuthStack = () => {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="Home"
-        component={LoginScreen}
-        options={{
-          title: "Giriş Yap",
-          headerShown: false,
-        }}
-      />
-    </Stack.Navigator>
-  );
-};
-
-function App() {
-  FirebaseStorage.on((messages) => {
-    console.log("messs", messages);
-  });
-  return (
-    <Provider store={store}>
-      <SafeAreaProvider style={{ backgroundColor: "#464646" }}>
-        <NavigationContainer>
-          {/* <HomeStack /> */}
-          <AuthStack />
-        </NavigationContainer>
-      </SafeAreaProvider>
-    </Provider>
-  );
+export default function App() {
+  const isLoadingComplete = useCachedResources();
+  if (!isLoadingComplete) {
+    return null;
+  } else {
+    return (
+      <Provider store={store}>
+        <SafeAreaProvider style={{ backgroundColor: "#464646" }}>
+          <Navigation />
+        </SafeAreaProvider>
+      </Provider>
+    );
+  }
 }
-
-export default App;

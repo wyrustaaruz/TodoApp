@@ -7,31 +7,24 @@ import {
   SafeAreaView,
   ScrollView,
 } from "react-native";
-import {
-  useFonts,
-  Poppins_400Regular,
-  Poppins_600SemiBold,
-} from "@expo-google-fonts/poppins";
+import { useDispatch, useSelector } from "react-redux";
+import Actions from "../../redux/actions";
 import { headerLeft, headerRight } from "../../components/header";
 import { TaskItem } from "../../components/TaskItem";
 import { AddIcon } from "../../components/Icons";
 
 function DashboardScreen() {
-  let [fontsLoaded] = useFonts({
-    Poppins_400Regular,
-    Poppins_600SemiBold,
-  });
+  const dispatch = useDispatch();
   const [task, setTask] = useState("");
-  if (!fontsLoaded) {
-    return <Text>Loading</Text>;
-  }
+
+  const user = useSelector((state) => state.authReducers.user);
   const handleLogout = () => {
-    console.log("Logout");
+    dispatch(Actions.authActions.Logout());
   };
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.headerContainer}>
-        {headerLeft()}
+        {headerLeft(user.firstName)}
         {headerRight(handleLogout)}
       </View>
       <View style={styles.container}>
@@ -88,7 +81,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   title: {
-    fontFamily: "Poppins_600SemiBold",
+    fontFamily: "poppins-semibold",
     fontSize: 18,
     color: "#171725",
     textAlign: "center",
@@ -123,7 +116,7 @@ const styles = StyleSheet.create({
     paddingLeft: 0,
     backgroundColor: "#fcfcfc",
     color: "#424242",
-    fontFamily: "Poppins_400Regular",
+    fontFamily: "poppins-regular",
   },
 });
 

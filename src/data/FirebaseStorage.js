@@ -33,11 +33,15 @@ class FirebaseStorage {
     }
   };
 
-  onAuthStateChanged = (user) => {
+  onAuthStateChanged = async (user) => {
     if (!user) {
       try {
-        firebase.auth().signInAnonymously();
-        return true;
+        let uid = "";
+        await firebase
+          .auth()
+          .signInAnonymously()
+          .then((res) => (uid = res.user.uid));
+        return uid;
       } catch ({ message }) {
         alert(message);
       }

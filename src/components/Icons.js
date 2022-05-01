@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#929290",
   },
   iconText: {
-    fontFamily: "Poppins_600SemiBold",
+    fontFamily: "poppins-semibold",
     color: "#fff",
   },
 });

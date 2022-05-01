@@ -1,5 +1,5 @@
 const initialState = {
-  authToken: null,
+  user: null,
 };
 
 const authReducers = (state = initialState, action) => {
@@ -7,7 +7,11 @@ const authReducers = (state = initialState, action) => {
     case "LOGIN":
       return {
         ...state,
-        authToken: action.payload,
+        user: action.payload,
+      };
+    case "LOGOUT":
+      return {
+        user: null,
       };
     default:
       return state;

@@ -1,7 +1,7 @@
 import { Text, StyleSheet, TouchableOpacity } from "react-native";
 
-export const headerLeft = () => {
-  return <Text style={styles.text}>Welcome, #firstname#</Text>;
+export const headerLeft = (userFirstName) => {
+  return <Text style={styles.text}>Welcome, {userFirstName}</Text>;
 };
 
 export const headerRight = (callback) => {
@@ -19,10 +19,10 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 14,
     color: "#171725",
-    fontFamily: "Poppins_400Regular",
+    fontFamily: "poppins-regular",
   },
   buttonText: {
-    fontFamily: "Poppins_600SemiBold",
+    fontFamily: "poppins-semibold",
     fontWeight: "600",
     fontSize: 14,
     height: 45,
