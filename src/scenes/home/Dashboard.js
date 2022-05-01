@@ -25,11 +25,14 @@ function DashboardScreen() {
   if (!fontsLoaded) {
     return <Text>Loading</Text>;
   }
+  const handleLogout = () => {
+    console.log("Logout");
+  };
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.headerContainer}>
         {headerLeft()}
-        {headerRight()}
+        {headerRight(handleLogout)}
       </View>
       <View style={styles.container}>
         <View style={styles.inputContainer}>

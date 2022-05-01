@@ -1,22 +1,12 @@
 import { Text, StyleSheet, TouchableOpacity } from "react-native";
 
 export const headerLeft = () => {
-  return <HeaderLeftText />;
-};
-
-const HeaderLeftText = () => {
   return <Text style={styles.text}>Welcome, #firstname#</Text>;
 };
-export const headerRight = () => {
-  return <HeaderRightButton />;
-};
 
-const HeaderRightButton = () => {
+export const headerRight = (callback) => {
   return (
-    <TouchableOpacity
-      style={styles.buttonContainer}
-      onPress={() => console.log("Logout")}
-    >
+    <TouchableOpacity style={styles.buttonContainer} onPress={() => callback()}>
       <Text style={styles.buttonText}>LOGOUT</Text>
     </TouchableOpacity>
   );
