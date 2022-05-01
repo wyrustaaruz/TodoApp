@@ -15,7 +15,6 @@ const TasksList = () => {
           type: "LOADING_FALSE",
         });
         if (snapshot.val()) {
-          console.log("snapshot.val()", snapshot.val());
           const obj = snapshot.val();
           const array = Object.keys(obj).map((key) => ({
             id: key,
