@@ -12,9 +12,6 @@ function LoginScreen({ navigation }) {
   let [fontsLoaded] = useFonts({
     Poppins_600SemiBold,
   });
-  if (!fontsLoaded) {
-    return <Text>Loading</Text>;
-  }
   const [loading, setLoading] = useState(false);
   const [username, setUsername] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -54,6 +51,9 @@ function LoginScreen({ navigation }) {
     return <Text style={styles.header}>Loading...</Text>;
   };
 
+  if (!fontsLoaded) {
+    return <Text>Loading</Text>;
+  }
   return (
     <View style={styles.container}>
       {loading ? (
