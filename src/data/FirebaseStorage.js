@@ -40,7 +40,9 @@ class FirebaseStorage {
         await firebase
           .auth()
           .signInAnonymously()
-          .then((res) => (uid = res.user.uid));
+          .then((res) => {
+            uid = res.user.uid;
+          });
         return uid;
       } catch ({ message }) {
         alert(message);
@@ -48,34 +50,29 @@ class FirebaseStorage {
     }
   };
 
-  on = (callback) => {
-    const parse = (snapshot) => {
-      const { timestamp: numberStamp, text, status, user } = snapshot.val();
-      const { key: _id } = snapshot;
-      const timestamp = new Date(numberStamp);
-      return {
-        _id,
-        timestamp,
-        text,
-        status,
-        user,
-      };
+  parse = (snapshot) => {
+    const { timestamp: numberStamp, text, user } = snapshot.val();
+    const { key: _id } = snapshot;
+    const timestamp = new Date(numberStamp);
+    return {
+      _id,
+      timestamp,
+      text,
+      user,
     };
-    return this.ref.limitToLast(50).on("child_added", function (snapshot) {
-      var message = snapshot.val();
-      if (message.status === chatRoom) {
-        return callback(parse(snapshot));
-      }
-    });
   };
 
-  send = (messages, status) => {
+  on = (callback: (messages: any) => void) =>
+    this.ref
+      .limitToLast(50)
+      .on("child_added", (snapshot) => callback(this.parse(snapshot)));
+
+  send = (messages) => {
     for (let i = 0; i < messages.length; i++) {
       const { text, user } = messages[i];
       const message = {
         text,
         user,
-        status: status,
         timestamp: this.timestamp,
       };
       this.append(message);

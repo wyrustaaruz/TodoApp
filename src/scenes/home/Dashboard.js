@@ -1,13 +1,16 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   View,
   Text,
   TextInput,
   StyleSheet,
   SafeAreaView,
-  ScrollView,
+  TouchableOpacity,
+  FlatList,
 } from "react-native";
+import _ from "lodash";
 import { useDispatch, useSelector } from "react-redux";
+import FirebaseStorage from "../../data/FirebaseStorage";
 import Actions from "../../redux/actions";
 import { headerLeft, headerRight } from "../../components/header";
 import { TaskItem } from "../../components/TaskItem";
@@ -15,11 +18,24 @@ import { AddIcon } from "../../components/Icons";
 
 function DashboardScreen() {
   const dispatch = useDispatch();
-  const [task, setTask] = useState("");
+  const [message, setMessage] = useState("");
+  const tasks = useSelector((state) => state.dashboardReducers.taskList);
+
+  useEffect(() => {
+    dispatch(Actions.dashboardActions.TasksList());
+  }, []);
 
   const user = useSelector((state) => state.authReducers.user);
   const handleLogout = () => {
     dispatch(Actions.authActions.Logout());
+  };
+  const handleAddTask = () => {
+    const task = {
+      user,
+      text: message,
+    };
+    FirebaseStorage.send([task]);
+    setMessage("");
   };
   return (
     <SafeAreaView style={styles.container}>
@@ -32,29 +48,25 @@ function DashboardScreen() {
           <TextInput
             style={styles.input}
             placeholder="Type a task"
-            onChangeText={setTask}
-            value={task}
+            onChangeText={setMessage}
+            value={message}
             underlineColorAndroid="transparent"
           />
-          <AddIcon />
+          <TouchableOpacity onPress={() => handleAddTask()}>
+            <AddIcon />
+          </TouchableOpacity>
         </View>
         <View>
           <Text style={styles.title}>Tasks</Text>
         </View>
         <View style={styles.tasksContainer}>
-          {true ? (
-            <ScrollView style={{ marginBottom: 90 }}>
-              <TaskItem item={{ title: "I need a bottle of water!", id: 1 }} />
-              <TaskItem item={{ title: "I need a bottle of water!", id: 1 }} />
-              <TaskItem item={{ title: "I need a bottle of water!", id: 1 }} />
-              <TaskItem item={{ title: "I need a bottle of water!", id: 1 }} />
-              <TaskItem item={{ title: "I need a bottle of water!", id: 1 }} />
-              <TaskItem item={{ title: "I need a bottle of water!", id: 1 }} />
-              <TaskItem item={{ title: "I need a bottle of water!", id: 1 }} />
-              <TaskItem item={{ title: "I need a bottle of water!", id: 1 }} />
-              <TaskItem item={{ title: "I need a bottle of water!", id: 1 }} />
-              <TaskItem item={{ title: "I need a bottle of water!", id: 1 }} />
-            </ScrollView>
+          {!_.isEmpty(tasks) ? (
+            <FlatList
+              data={tasks}
+              renderItem={({ item }) => {
+                return <TaskItem item={{ title: item.text, id: item._id }} />;
+              }}
+            />
           ) : (
             <>
               <Text style={styles.noTasks}>:(</Text>
