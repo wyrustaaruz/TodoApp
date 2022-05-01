@@ -53,7 +53,7 @@ function DashboardScreen() {
             underlineColorAndroid="transparent"
           />
           <TouchableOpacity onPress={() => handleAddTask()}>
-            <AddIcon />
+            <AddIcon active={message} />
           </TouchableOpacity>
         </View>
         <View>

@@ -14,9 +14,17 @@ const TasksList = () => {
         dispatch({
           type: "LOADING_FALSE",
         });
-        const obj = snapshot.val();
-        const array = Object.keys(obj).map((key) => ({ id: key, ...obj[key] }));
-        dispatch({ type: "TODO_LIST", payload: array });
+        if (snapshot.val()) {
+          console.log("snapshot.val()", snapshot.val());
+          const obj = snapshot.val();
+          const array = Object.keys(obj).map((key) => ({
+            id: key,
+            ...obj[key],
+          }));
+          dispatch({ type: "TODO_LIST", payload: array });
+        } else {
+          dispatch({ type: "TODO_LIST", payload: [] });
+        }
       });
   };
 };
@@ -48,7 +56,7 @@ const TaskDelete = (taskId) => {
       .database()
       .ref(`messages/${taskId}`)
       .remove()
-      .then((item) => {
+      .then(() => {
         dispatch({
           type: "LOADING_FALSE",
         });

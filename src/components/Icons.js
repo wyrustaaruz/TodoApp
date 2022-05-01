@@ -9,14 +9,19 @@ import {
 
 export const CloseIcon = () => {
   return (
-    <View style={styles.iconContainer}>
+    <View style={[styles.iconContainer, styles.activeColor]}>
       <Text style={styles.iconText}>X</Text>
     </View>
   );
 };
-export const AddIcon = () => {
+export const AddIcon = ({ active = true }) => {
   return (
-    <View style={styles.iconContainer}>
+    <View
+      style={[
+        styles.iconContainer,
+        active ? styles.activeColor : styles.deactiveColor,
+      ]}
+    >
       <Text style={styles.iconText}>+</Text>
     </View>
   );
@@ -29,7 +34,12 @@ const styles = StyleSheet.create({
     height: 24,
     justifyContent: "center",
     alignItems: "center",
+  },
+  activeColor: {
     backgroundColor: "#929290",
+  },
+  deactiveColor: {
+    backgroundColor: "#eeeeee",
   },
   iconText: {
     fontFamily: "poppins-semibold",
