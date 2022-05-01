@@ -21,7 +21,6 @@ const MakeLogin = (username, firstName, lastName = "") => {
         type: "LOADING_TRUE",
       });
       const uid = await FirebaseStorage.onAuthStateChanged();
-      console.log("uid", uid);
       if (uid) {
         const user = {
           uid,

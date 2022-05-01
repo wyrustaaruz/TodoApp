@@ -64,7 +64,7 @@ function DashboardScreen() {
             <FlatList
               data={tasks}
               renderItem={({ item }) => {
-                return <TaskItem item={{ title: item.text, id: item._id }} />;
+                return <TaskItem item={{ title: item.text, id: item.id }} />;
               }}
             />
           ) : (

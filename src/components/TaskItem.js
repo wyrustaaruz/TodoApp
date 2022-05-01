@@ -5,14 +5,23 @@ import {
   TextInput,
   StyleSheet,
   TouchableWithoutFeedback,
+  TouchableOpacity,
 } from "react-native";
+import { useDispatch } from "react-redux";
+import Actions from "../redux/actions";
 import { CloseIcon } from "./Icons";
 export const TaskItem = ({ item }) => {
+  const dispatch = useDispatch();
   const { title, id } = item;
   const [editable, setEditable] = useState(false);
   const [task, setTask] = useState(title);
   const handleItemChange = () => {
+    dispatch(Actions.dashboardActions.TaskEdit(id, task));
     setEditable(false);
+  };
+
+  const handleDeleteTask = () => {
+    dispatch(Actions.dashboardActions.TaskDelete(id));
   };
   return (
     <View key={id} style={styles.editableAreaContainer}>
@@ -29,7 +38,13 @@ export const TaskItem = ({ item }) => {
           <Text>{title}</Text>
         )}
       </TouchableWithoutFeedback>
-      <CloseIcon />
+      <TouchableOpacity
+        onPress={() => {
+          handleDeleteTask(id);
+        }}
+      >
+        <CloseIcon />
+      </TouchableOpacity>
     </View>
   );
 };
