@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   View,
   Text,
@@ -6,6 +6,7 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
+import FirebaseStorage from "../../data/FirebaseStorage";
 import { useFonts, Poppins_600SemiBold } from "@expo-google-fonts/poppins";
 
 function LoginScreen({ navigation }) {
@@ -24,6 +25,12 @@ function LoginScreen({ navigation }) {
   const handleLogin = () => {
     if (username && firstName) {
       setLoading(true);
+      FirebaseStorage.onAuthStateChanged();
+      if (FirebaseStorage.uid) {
+        setTimeout(() => {
+          setLoading(false);
+        }, 1000);
+      }
     } else {
       const tempValueChecker = {
         username: false,

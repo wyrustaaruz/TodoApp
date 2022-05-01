@@ -6,6 +6,7 @@ import { Provider } from "react-redux";
 import LoginScreen from "./src/scenes/auth/Login";
 import DashboardScreen from "./src/scenes/home/Dashboard";
 import { store } from "./src/redux/store";
+import FirebaseStorage from "./src/data/FirebaseStorage";
 
 const Stack = createNativeStackNavigator();
 
@@ -39,12 +40,15 @@ const AuthStack = () => {
 };
 
 function App() {
+  FirebaseStorage.on((messages) => {
+    console.log("messs", messages);
+  });
   return (
     <Provider store={store}>
       <SafeAreaProvider style={{ backgroundColor: "#464646" }}>
         <NavigationContainer>
-          <HomeStack />
-          {/* <AuthStack /> */}
+          {/* <HomeStack /> */}
+          <AuthStack />
         </NavigationContainer>
       </SafeAreaProvider>
     </Provider>
