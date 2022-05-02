@@ -1,7 +1,7 @@
 import firebase from "firebase/compat";
 import _ from "lodash";
 
-const TasksList = () => {
+const TasksList = (userId) => {
   return (dispatch) => {
     dispatch({
       type: "LOADING_TRUE",
@@ -9,6 +9,8 @@ const TasksList = () => {
     firebase
       .database()
       .ref(`messages`)
+      .orderByChild("user/uid")
+      .equalTo(userId)
       .limitToLast(50)
       .on("value", (snapshot) => {
         dispatch({

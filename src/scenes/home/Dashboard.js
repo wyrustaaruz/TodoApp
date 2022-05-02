@@ -20,12 +20,12 @@ function DashboardScreen() {
   const dispatch = useDispatch();
   const [message, setMessage] = useState("");
   const tasks = useSelector((state) => state.dashboardReducers.taskList);
+  const user = useSelector((state) => state.authReducers.user);
 
   useEffect(() => {
-    dispatch(Actions.dashboardActions.TasksList());
+    dispatch(Actions.dashboardActions.TasksList(user.uid));
   }, []);
 
-  const user = useSelector((state) => state.authReducers.user);
   const handleLogout = () => {
     dispatch(Actions.authActions.Logout());
   };
